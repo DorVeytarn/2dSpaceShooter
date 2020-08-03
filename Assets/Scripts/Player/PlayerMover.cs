@@ -6,6 +6,7 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _tilt;
+    [SerializeField] Joystick _joystick;
 
     [SerializeField] private float _downBodrder;
     [SerializeField] private float _upBodrder;
@@ -25,8 +26,16 @@ public class PlayerMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _moveHorizontal = Input.GetAxis("Horizontal");
-        _moveVertical = Input.GetAxis("Vertical");
+        if (Application.isMobilePlatform)
+        {
+            _moveHorizontal = _joystick.MovementVector.x;
+            _moveVertical = _joystick.MovementVector.y;
+        }
+        else
+        {
+            _moveHorizontal = Input.GetAxis("Horizontal");
+            _moveVertical = Input.GetAxis("Vertical");
+        }
 
         Move(_moveHorizontal, _moveVertical, _tilt);
     }
