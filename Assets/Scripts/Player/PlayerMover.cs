@@ -52,6 +52,6 @@ public class PlayerMover : MonoBehaviour
 
     private void ChekPlayerPosition()
     {
-        _rigidbody.position = new Vector2 (Mathf.Clamp(_rigidbody.position.x, _leftBodrder, _rightBodrder),Mathf.Clamp(_rigidbody.position.y, _downBodrder, _upBodrder));
+        _rigidbody.position = new Vector2(Mathf.Clamp(_rigidbody.position.x, _leftBodrder, _rightBodrder),Mathf.Clamp(_rigidbody.position.y, _downBodrder, _upBodrder));
     }
 }
