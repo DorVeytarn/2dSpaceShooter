@@ -24,7 +24,6 @@ public class EnemyHealthTracker : MonoBehaviour
     {
         _missionTracker = GameObject.FindWithTag("LevelMissionTracker").GetComponent<LevelMissionTracker>();
         _missionTracker.OnEnemyKilled();
-        Debug.Log("умер");
     }
 
 
