@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public event UnityAction<int> HealthChanged;
     public event UnityAction Died;
 
-    public int Health => _maxHealth;
+    public int MaxHealth => _maxHealth;
 
     private void Start()
     {

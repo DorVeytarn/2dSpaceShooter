@@ -26,7 +26,7 @@ public class PlayerHealthTracker : MonoBehaviour
 
     private void OnHealthChanged(int healthValue)
     {
-        if (healthValue < _player.Health)
+        if (healthValue < _player.MaxHealth)
         {
             _missionTracker.OnPlayerReceivedDamage(true);
         }

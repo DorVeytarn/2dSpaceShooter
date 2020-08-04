@@ -29,16 +29,43 @@ public class ElapsedTimeTracker : MonoBehaviour
 
     private void Update()
     {
+        if (ChekHoldOutTimer())
+            HoldOutTimeTracking();
+        else
+        {
+            UntouchableTimerTracking();
+        }
+    }
+
+    private bool ChekHoldOutTimer()
+    {
+        if (_missionTracker.TimeToHoldOut == 0)
+            return false;
+        else return true;
+    }
+
+    private void HoldOutTimeTracking()
+    {
         if (_currentTime > 0)
         {
             _currentTime -= Time.deltaTime;
-            _timer.text = Mathf.RoundToInt(_currentTime).ToString();
         }
         else if (_currentTime <= 0)
         {
             _currentTime = 0;
-            _timer.text = Mathf.RoundToInt(_currentTime).ToString();
             _missionTracker.OnTimeIsOver(_currentTime);
+        }
+        _timer.text = Mathf.RoundToInt(_currentTime).ToString();
+    }
+
+    private void UntouchableTimerTracking()
+    {
+        _currentTime += Time.deltaTime;
+        _timer.text = Mathf.RoundToInt(_currentTime).ToString();
+
+        if (_currentTime >= _missionTracker.UntouchableTimeToHoldOut)
+        {
+            _missionTracker.OnPlayerReceivedDamage(false);
         }
     }
 

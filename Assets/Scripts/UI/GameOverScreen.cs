@@ -9,6 +9,7 @@ public class GameOverScreen : MonoBehaviour
 {
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _pauseButton;
     [SerializeField] private Text _missionFailedMessage;
 
     [SerializeField] private Player _player;
@@ -38,12 +39,14 @@ public class GameOverScreen : MonoBehaviour
     private void Start()
     {
         gameObject.SetActive(true);
-        _winScreen.gameObject.SetActive(true);
+        ChangeActiveOtherPanel(true);
 
         _gameOverGroup = GetComponent<CanvasGroup>();
 
         _gameOverGroup.alpha = 0;
         _gameOverGroup.interactable = false;
+
+
     }
 
     private void OnDied()
@@ -51,20 +54,24 @@ public class GameOverScreen : MonoBehaviour
         Time.timeScale = 0;
         _gameOverGroup.alpha = 1;
         _gameOverGroup.interactable = true;
+
+        ChangeActiveOtherPanel(false);    
     }
 
     private void OnMissionFailed(string message)
     {
+        ChangeActiveOtherPanel(false);
+
         Time.timeScale = 0;
         _gameOverGroup.alpha = 1;
         _gameOverGroup.interactable = true;
 
-        _winScreen.gameObject.SetActive(false);
         _missionFailedMessage.text = "Миссия: '" + message + "' провалена!";
     }
 
     private void OnRestartButtonClick()
     {
+        _pauseButton.gameObject.SetActive(true);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1;
     }
@@ -72,5 +79,11 @@ public class GameOverScreen : MonoBehaviour
     private void OnExitButtonClick()
     {
         SceneManager.LoadScene(0);
+    }
+
+    private void ChangeActiveOtherPanel(bool active)
+    {
+        _pauseButton.gameObject.SetActive(active);
+        _winScreen.gameObject.SetActive(active);
     }
 }

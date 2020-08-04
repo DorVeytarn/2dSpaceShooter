@@ -9,18 +9,15 @@ public class WinScreen : MonoBehaviour
 {
     [SerializeField] private Button _exitButton;
     [SerializeField] private Button _restartButton;
+    [SerializeField] private Button _nextButton;
+    [SerializeField] private Button _pauseButton;
+
     [SerializeField] private Text _missionFailedMessage;
     [SerializeField] private LevelMissionTracker _missionTracker;
+    [SerializeField] private GameOverScreen _gameOverScreen;
 
     private CanvasGroup _winGroup;
 
-    private void Start()
-    {
-        _winGroup = GetComponent<CanvasGroup>();
-        _winGroup.alpha = 0;
-        _winGroup.interactable = false;
-        Time.timeScale = 1;
-    }
 
     private void OnEnable()
     {
@@ -28,6 +25,7 @@ public class WinScreen : MonoBehaviour
 
         _exitButton.onClick.AddListener(OnExitButtonClick);
         _restartButton.onClick.AddListener(OnRestartButtonClick);
+        _nextButton.onClick.AddListener(OnNextButtonClick);
     }
 
     private void OnDisable()
@@ -36,10 +34,24 @@ public class WinScreen : MonoBehaviour
 
         _exitButton.onClick.RemoveListener(OnExitButtonClick);
         _restartButton.onClick.RemoveListener(OnRestartButtonClick);
+        _nextButton.onClick.RemoveListener(OnNextButtonClick);
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(true);
+        ChangeActiveOtherPanel(true);
+
+        _winGroup = GetComponent<CanvasGroup>();
+        _winGroup.alpha = 0;
+        _winGroup.interactable = false;
+        Time.timeScale = 1;
     }
 
     private void OnWon(string message)
     {
+        ChangeActiveOtherPanel(false);
+
         _missionFailedMessage.text = "Миссия: '" + message + "' выполнена!";
         _winGroup.alpha = 1;
         _winGroup.interactable = true;
@@ -49,6 +61,8 @@ public class WinScreen : MonoBehaviour
 
     private void OnRestartButtonClick()
     {
+        ChangeActiveOtherPanel(true);
+
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -57,4 +71,23 @@ public class WinScreen : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    private void OnNextButtonClick()
+    {
+        Time.timeScale = 1;
+        int nextSceneNumber = SceneManager.GetActiveScene().buildIndex + 1;
+        
+        nextSceneNumber = (nextSceneNumber < SceneManager.sceneCountInBuildSettings) ? nextSceneNumber : SceneManager.GetActiveScene().handle;
+
+        ChangeActiveOtherPanel(true);
+
+        SceneManager.LoadScene(nextSceneNumber);
+    }
+
+    private void ChangeActiveOtherPanel(bool active)
+    {
+        _pauseButton.gameObject.SetActive(active);
+        _gameOverScreen.gameObject.SetActive(active);
+    }
+
 }

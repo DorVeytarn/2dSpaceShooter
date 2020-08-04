@@ -5,6 +5,8 @@ using UnityEngine.Events;
 
 public class LevelMissionTracker : MonoBehaviour
 {
+    [SerializeField] private LevelData _currentLevelData;
+    [SerializeField] private LevelData _nextLevelData;
     [SerializeField] private string _missionName;
 
     [Multiline(4)]
@@ -21,7 +23,7 @@ public class LevelMissionTracker : MonoBehaviour
 
     [Header("Не получить урона и продержаться Х секунд для победы")]
     [SerializeField] private bool _untouchable;
-    [SerializeField] private float _untouchableTimeToHoldOut;
+    [SerializeField] private int _untouchableTimeToHoldOut;
     [SerializeField] private bool _activeUntouchable;
 
 
@@ -33,8 +35,12 @@ public class LevelMissionTracker : MonoBehaviour
 
     public event UnityAction<string> MissionFailed;
     public event UnityAction<string> Won;
-    public int TimeToHoldOut => _timeToHoldOut;
 
+    public int TimeToHoldOut => _timeToHoldOut;
+    public int UntouchableTimeToHoldOut => _untouchableTimeToHoldOut;
+    public int CurrentEnemyDeath => _currentEnemyDeath;
+
+    public bool ActiveDeathRequiredAmount => _activeDeathRequiredAmount;
 
 
     private void Update()
@@ -48,7 +54,10 @@ public class LevelMissionTracker : MonoBehaviour
         {
             _currentEnemyDeath++;
             if (_currentEnemyDeath >= _deathRequiredAmount)
+            {
                 Won?.Invoke(_missionName);
+                ChangeLevelStatus();
+            }
         }
     }
 
@@ -57,7 +66,10 @@ public class LevelMissionTracker : MonoBehaviour
         if (_activeTimeToHoldOut)
         {
             if (timeValue == 0)
+            {
                 Won?.Invoke(_missionName);
+                ChangeLevelStatus();
+            }
             else
                 MissionFailed?.Invoke(_missionName);
         }
@@ -67,9 +79,24 @@ public class LevelMissionTracker : MonoBehaviour
     {
         if (_activeUntouchable)
         {
-            if (receivedDamage == _untouchable && _timer >= _untouchableTimeToHoldOut)
+            if (receivedDamage == false)
+            {
                 Won?.Invoke(_missionName);
+                ChangeLevelStatus();
+            }
             else MissionFailed?.Invoke(_missionName);
+        }
+    }
+
+    public void ChangeLevelStatus()
+    {
+        if(_currentLevelData.Open == true)
+        {
+            _currentLevelData.Passed = true;
+            _currentLevelData.Open = false;
+
+            _nextLevelData.Open = true;
+            _nextLevelData.Closed = false;
         }
     }
 }
