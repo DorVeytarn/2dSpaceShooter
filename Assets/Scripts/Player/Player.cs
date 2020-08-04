@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private int _health;
     [SerializeField] private Weapon _weapon;
+
     [SerializeField] private Transform _shootPoint;
     [SerializeField] private float _secondsBetweenShoot;
 

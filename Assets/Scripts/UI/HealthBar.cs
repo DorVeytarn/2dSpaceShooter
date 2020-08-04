@@ -27,7 +27,6 @@ public class HealthBar : MonoBehaviour
             for (int i = 0; i < createHeart; i++)
             {
                 CreateHeart(_heartTemplate);
-                print("Creat H");
             }
         }
         else if (_hearts.Count > value && _hearts.Count != 0)
@@ -36,7 +35,6 @@ public class HealthBar : MonoBehaviour
             for (int i = 0; i < destroyHeart; i++)
             {
                 DestroyHeart(_hearts[_hearts.Count - 1]);
-                print("Destroy H");
             }
         }
     }

@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private int _damage;
     [SerializeField] private int _health;
-    [SerializeField] private int _reward;
+
+    public event UnityAction KilledByPlayer; 
 
     private void OnTriggerEnter(Collider other)
     {
@@ -23,7 +25,10 @@ public class Enemy : MonoBehaviour
     {
         _health -= damage;
         if (_health <= 0)
+        {
+            KilledByPlayer?.Invoke();
             Die();
+        }
     }
 
     private void Die()
