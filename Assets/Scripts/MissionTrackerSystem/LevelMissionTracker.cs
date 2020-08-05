@@ -39,6 +39,7 @@ public class LevelMissionTracker : MonoBehaviour
     public int TimeToHoldOut => _timeToHoldOut;
     public int UntouchableTimeToHoldOut => _untouchableTimeToHoldOut;
     public int CurrentEnemyDeath => _currentEnemyDeath;
+    public string MissionDiscription => _missionDiscription;
 
     public bool ActiveDeathRequiredAmount => _activeDeathRequiredAmount;
 

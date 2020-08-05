@@ -47,7 +47,6 @@ public class WinScreen : MonoBehaviour
         _winGroup = GetComponent<CanvasGroup>();
         _winGroup.alpha = 0;
         _winGroup.interactable = false;
-        Time.timeScale = 1;
     }
 
     private void OnWon(string message)
