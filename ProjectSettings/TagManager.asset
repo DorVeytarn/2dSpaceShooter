@@ -8,6 +8,7 @@ TagManager:
   - LevelMissionTracker
   - Score
   - GameTimer
+  - Joystick
   layers:
   - Default
   - TransparentFX

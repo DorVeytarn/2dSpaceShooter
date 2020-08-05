@@ -8,7 +8,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _damage;
     [SerializeField] private int _health;
 
-    public event UnityAction KilledByPlayer; 
+    public event UnityAction KilledByPlayer;
+    public UnityEvent Died;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -33,6 +34,8 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        if(_health <= 0)
+            Died?.Invoke();
         gameObject.SetActive(false);
     }
 }

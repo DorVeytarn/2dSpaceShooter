@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
 {
-    [SerializeField] private Image _joystick;
-    [SerializeField] private Image _stick;
+    private Image _joystick;
+    private Image _stick;
 
     private Vector2 _movementVector;
     private Vector2 _touchPosition;

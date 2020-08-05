@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     public event UnityAction<int> HealthChanged;
     public event UnityAction Died;
+    public UnityEvent ReceivedDamage;
+
 
     public int MaxHealth => _maxHealth;
 
@@ -29,6 +31,8 @@ public class Player : MonoBehaviour
 
     public void ApplayDamage(int damage)
     {
+        ReceivedDamage?.Invoke();
+
         _currenthealth -= damage;
         HealthChanged?.Invoke(_currenthealth);
 

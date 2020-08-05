@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -17,6 +18,8 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private WinScreen _winScreen;
 
     private CanvasGroup _gameOverGroup;
+
+    public UnityEvent GameOver;
 
     private void OnEnable()
     {
@@ -55,7 +58,9 @@ public class GameOverScreen : MonoBehaviour
         _gameOverGroup.alpha = 1;
         _gameOverGroup.interactable = true;
 
-        ChangeActiveOtherPanel(false);    
+        ChangeActiveOtherPanel(false);
+
+        GameOver?.Invoke();
     }
 
     private void OnMissionFailed(string message)
@@ -65,6 +70,7 @@ public class GameOverScreen : MonoBehaviour
         Time.timeScale = 0;
         _gameOverGroup.alpha = 1;
         _gameOverGroup.interactable = true;
+        GameOver?.Invoke();
 
         _missionFailedMessage.text = "Миссия: '" + message + "' провалена!";
     }

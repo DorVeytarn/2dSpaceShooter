@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -18,6 +19,7 @@ public class WinScreen : MonoBehaviour
 
     private CanvasGroup _winGroup;
 
+    public UnityEvent Win;
 
     private void OnEnable()
     {
@@ -57,6 +59,8 @@ public class WinScreen : MonoBehaviour
         _winGroup.interactable = true;
 
         Time.timeScale = 0;
+
+        Win?.Invoke();
     }
 
     private void OnRestartButtonClick()
@@ -76,9 +80,10 @@ public class WinScreen : MonoBehaviour
     {
         Time.timeScale = 1;
         int nextSceneNumber = SceneManager.GetActiveScene().buildIndex + 1;
-        
-        nextSceneNumber = (nextSceneNumber < SceneManager.sceneCountInBuildSettings) ? nextSceneNumber : SceneManager.GetActiveScene().handle;
 
+        if (nextSceneNumber > SceneManager.sceneCountInBuildSettings - 1)
+            nextSceneNumber--;
+        
         ChangeActiveOtherPanel(true);
 
         SceneManager.LoadScene(nextSceneNumber);

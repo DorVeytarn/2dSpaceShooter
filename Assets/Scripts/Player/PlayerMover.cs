@@ -7,12 +7,8 @@ public class PlayerMover : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _tilt;
     [SerializeField] Joystick _joystick;
-
-    [SerializeField] private float _downBodrder;
-    [SerializeField] private float _upBodrder;
-    [SerializeField] private float _leftBodrder;
-    [SerializeField] private float _rightBodrder;
-
+    [SerializeField] private float extraDistance;
+    
     private Rigidbody _rigidbody;
     private float _moveHorizontal;
     private float _moveVertical;
@@ -52,6 +48,9 @@ public class PlayerMover : MonoBehaviour
 
     private void ChekPlayerPosition()
     {
-        _rigidbody.position = new Vector2(Mathf.Clamp(_rigidbody.position.x, _leftBodrder, _rightBodrder),Mathf.Clamp(_rigidbody.position.y, _downBodrder, _upBodrder));
+        Vector2 min = Camera.main.ViewportToWorldPoint(new Vector2(0, 0)); 
+        Vector2 max = Camera.main.ViewportToWorldPoint(new Vector2(1, 1));
+
+        _rigidbody.position = new Vector2(Mathf.Clamp(_rigidbody.position.x, min.x + extraDistance, max.x - extraDistance), Mathf.Clamp(_rigidbody.position.y, min.y + extraDistance, max.y - extraDistance));
     }
 }
